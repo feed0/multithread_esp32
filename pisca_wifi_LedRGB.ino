@@ -39,6 +39,8 @@
 
 // coloque seu grupo ...
 // AQUI         ---
+
+// BRENO COUTO, FELIPE OSORIO
 String GRUPO = "G20";
 //              ---
 #define RR 21
@@ -48,8 +50,8 @@ String GRUPO = "G20";
 #include <WiFi.h>
 #include <HTTPClient.h>
 
-const char* ssid     = "AAAAAAAA";
-const char* password = "08120812";
+const char* ssid     = "iPhone de Igor";
+const char* password = "igolinha";
 String serverName    = "http://h20.com.br/so/";
 
 // CHANGES 5 -------------------------------------------------------------------------------------------------
@@ -59,8 +61,8 @@ int comando = 1; // Inicializa com algum valor
 #include "freertos/semphr.h"
 SemaphoreHandle_t xSemaphore = xSemaphoreCreateBinary();
 
-#define CICLO_LED      5000 // ms
-#define CICLO_REQUEST 10000 // ms
+#define CICLO_LED      500 // ms
+#define CICLO_REQUEST 1000 // ms
  
 void setup() {
   // para debug, se quiser...
@@ -136,8 +138,7 @@ void controleLed(void *pvParameters) {
     setLed(comando);
     xSemaphoreGive(xSemaphore);                // Libere o semáforo para a task HTTP
     
-    // DELAY ??
-    // vTaskDelay(pdMS_TO_TICKS(CICLO_LED));
+    vTaskDelay(CICLO_LED / portTICK_PERIOD_MS);
   }
 }
 
@@ -148,7 +149,7 @@ void requisicaoHttp(void *pvParameters) {
     xSemaphoreGive(xSemaphore); // Libere o semáforo para a task LEDs
     
     // DELAY ??
-    // vTaskDelay(pdMS_TO_TICKS(CICLO_REQUEST));
+    vTaskDelay(CICLO_REQUEST / portTICK_PERIOD_MS);
   }
 }
 
